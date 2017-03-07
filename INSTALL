@@ -1,0 +1,14 @@
+To install, cd to the source directory, make, sudo make install.
+
+To build this version, you need the shared libraries
+
+  libclthreads       (2.4.x)
+  libzita-convolver  (3.0.x)
+
+and the corresponding header files. They are available at
+
+  <http://kokkinizita.linuxaudio.org/linuxaudio/downloads>
+
+You also need libfftw3f, libsndfile, and libjack.
+For best performance install fftw3f from source,
+compiled with all optimisations for your platform.

@@ -1,0 +1,27 @@
+Release notes for jconvolver and fconvolver 0.9.1
+-------------------------------------------------
+
+Jconvolver is a real-time convolution engine. It
+can execute up to a 64 by 64 convolution matrix
+(i.e. 4096 simultaneous convolutions) as long as
+your CPU(s) can handle the load. It is designed 
+to be efficient also for sparse (e.g. diagonal)
+matrices. Unused matrix elements do not take
+any CPU time.
+
+In contrast to e.g. BruteFir, jconvolver uses
+multiple partition sizes, small ones at the start
+of the impulse response and progressively longer
+ones for the rest. This allows it provide both
+zero processing delay while still remaining 
+efficient in CPU use. 
+
+Fconvolver performs the same processing on files
+instead of real-time.
+
+To compile on OSX, copy Makefile-osx to Makefile,
+the proceed in the normal way. This is untested
+and may or may not work. 
+
+-- 
+FA

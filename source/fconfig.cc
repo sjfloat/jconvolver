@@ -24,6 +24,16 @@
 #include <string.h>
 #include "config.h"
 
+#define ZITA_CONVOLVER_VERSION  0
+#if ZITA_CONVOLVER_MAJOR_VERSION == 3
+#undef ZITA_CONVOLVER_VERSION
+#define ZITA_CONVOLVER_VERSION  3
+#elif ZITA_CONVOLVER_MAJOR_VERSION == 4
+#undef ZITA_CONVOLVER_VERSION
+#define ZITA_CONVOLVER_VERSION  4
+#else
+#error "This version of IR requires zita-convolver 3.x.x or 4.x.x"
+#endif
 
 int convnew (const char *line, int lnum)
 {
@@ -60,13 +70,20 @@ int convnew (const char *line, int lnum)
     while ((fragm > Convproc::MINPART) && (fragm >= 2 * size)) fragm /= 2;
 
     convproc->set_options (options);
+#if ZITA_CONVOLVER_VERSION == 3
     convproc->set_density (dens);
     if (convproc->configure (ninp, nout, size, fragm, fragm, fragm))
     {   
         fprintf (stderr, "Can't initialise convolution engine\n");
         return ERR_OTHER;
     }
-
+#elif ZITA_CONVOLVER_VERSION == 4
+    if (convproc->configure (ninp, nout, size, fragm, fragm, fragm, dens))
+    {   
+        fprintf (stderr, "Can't initialise convolution engine\n");
+        return ERR_OTHER;
+    }
+#endif
     return 0;
 }
 

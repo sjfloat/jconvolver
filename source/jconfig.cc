@@ -25,6 +25,17 @@
 #include "jclient.h"
 #include "config.h"
 
+#define ZITA_CONVOLVER_VERSION  0
+#if ZITA_CONVOLVER_MAJOR_VERSION == 3
+#undef ZITA_CONVOLVER_VERSION
+#define ZITA_CONVOLVER_VERSION  3
+#elif ZITA_CONVOLVER_MAJOR_VERSION == 4
+#undef ZITA_CONVOLVER_VERSION
+#define ZITA_CONVOLVER_VERSION  4
+#else
+#error "This version of IR requires zita-convolver 3.x.x or 4.x.x"
+#endif
+
 extern Jclient     *jclient;
 extern unsigned int fragm;
 
@@ -88,7 +99,16 @@ int convnew (const char *line, int lnum)
 
     convproc->set_options (options);
 
-    // convproc->set_density (dens);
+#if ZITA_CONVOLVER_VERSION == 3
+    convproc->set_density (dens);
+    if (convproc->configure (ninp, nout, size, fragm, part, Convproc::MAXPART))
+    {   
+        fprintf (stderr, "Can't initialise convolution engine.\n");
+        return ERR_OTHER;
+    }
+
+    return 0;
+#elif ZITA_CONVOLVER_VERSION == 4
     if (convproc->configure (ninp, nout, size, fragm, part, Convproc::MAXPART, dens))
     {   
         fprintf (stderr, "Can't initialise convolution engine.\n");
@@ -96,8 +116,8 @@ int convnew (const char *line, int lnum)
     }
 
     return 0;
+#endif
 }
-
 
 int inpname (const char *line)
 {

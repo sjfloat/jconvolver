@@ -25,7 +25,6 @@
 #include "jclient.h"
 #include "config.h"
 
-
 extern Jclient     *jclient;
 extern unsigned int fragm;
 
@@ -88,8 +87,9 @@ int convnew (const char *line, int lnum)
     }
 
     convproc->set_options (options);
-    convproc->set_density (dens);
-    if (convproc->configure (ninp, nout, size, fragm, part, Convproc::MAXPART))
+
+    // convproc->set_density (dens);
+    if (convproc->configure (ninp, nout, size, fragm, part, Convproc::MAXPART, dens))
     {   
         fprintf (stderr, "Can't initialise convolution engine.\n");
         return ERR_OTHER;

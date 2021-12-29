@@ -60,8 +60,8 @@ int convnew (const char *line, int lnum)
     while ((fragm > Convproc::MINPART) && (fragm >= 2 * size)) fragm /= 2;
 
     convproc->set_options (options);
-    convproc->set_density (dens);
-    if (convproc->configure (ninp, nout, size, fragm, fragm, fragm))
+    // convproc->set_density (dens);
+    if (convproc->configure (ninp, nout, size, fragm, fragm, fragm, dens))
     {   
         fprintf (stderr, "Can't initialise convolution engine\n");
         return ERR_OTHER;
